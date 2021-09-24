@@ -71,7 +71,7 @@
         'Stop-Log'
         'Write-LogInfo'
         'Write-LogError'
-        'Write-LogWarning'
+        'Write-LogWarn'
         'Write-LogDebug'
     )
 

@@ -52,7 +52,7 @@ function Start-Log {
         if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
 
         # ADD INITIAL LOG ENTRY
-        $logEntry = '{0} # [INFO ] - Begin Logging' -f (Get-Date).ToString($format)
+        $logEntry = '{0} [INFO ] # - Begin Logging' -f (Get-Date).ToString($format)
 
         # ADD FIRST ENTRY TO LOG FILE
         Set-Content -Path $filePath -Value $logEntry

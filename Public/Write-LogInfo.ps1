@@ -31,14 +31,14 @@ function Write-LogInfo {
         [string[]] $Message,
 
         [Parameter(HelpMessage = 'Id')]
-        [ValidateRange(0, 99999)]
+        [ValidateRange(0, 999999)]
         [int] $Id = 0
     )
     Process {
 
         foreach ( $msg in $Message ) {
 
-            $logEntry = '{0} {1} [INFO ] - {2}' -f (Get-Date).ToString($format), $Id, $msg
+            $logEntry = '{0} [INFO ] {1} - {2}' -f (Get-Date).ToString($format), $Id, $msg
 
             Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
         }

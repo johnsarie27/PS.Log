@@ -16,3 +16,7 @@ $format = 'yyyy-MM-dd HH:mm:ss.ffff' # 'yyyy-MM-ddTHH:mm:ss.ffff'
 # THESE ARE SPECIFIED IN THE MODULE MANIFEST AND THEREFORE DON'T NEED TO BE LISTED HERE
 #Export-ModuleMember -Function *
 #Export-ModuleMember -Variable *
+
+# FORMAT NOTES
+# {"timestamp":"2021-09-24 15:34:34.0001","level":"INFO","id":"#","message":"Begin Logging"}
+# {"timestamp":"2021-09-24 15:34:34.0001","level":"ERROR","id":"#","message":"Begin Logging"}

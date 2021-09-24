@@ -38,7 +38,7 @@ function Write-LogDebug {
 
         foreach ( $msg in $Message ) {
 
-            $logEntry = '{0} {1} [DEBUG] - {2}' -f (Get-Date).ToString($format), $Id, $msg
+            $logEntry = '{0} [DEBUG] {1} - {2}' -f (Get-Date).ToString($format), $Id, $msg
 
             Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
         }

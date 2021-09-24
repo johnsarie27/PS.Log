@@ -24,7 +24,7 @@ function Stop-Log {
     )
     Process {
 
-        $logEntry = '{0} # [INFO ] - End logging' -f (Get-Date).ToString($format)
+        $logEntry = '{0} [INFO ] # - End logging' -f (Get-Date).ToString($format)
 
         Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
     }

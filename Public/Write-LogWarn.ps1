@@ -38,7 +38,7 @@ function Write-LogWarn {
 
         foreach ( $msg in $Message ) {
 
-            $logEntry = '{0} {1} [WARN ] - {2}' -f (Get-Date).ToString($format), $Id, $msg
+            $logEntry = '{0} [WARN ] {1} - {2}' -f (Get-Date).ToString($format), $Id, $msg
 
             Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
         }
