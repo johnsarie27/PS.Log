@@ -10,6 +10,8 @@ function Start-Log {
         log file name
     .PARAMETER Frequency
         Frequency of new log file creation (defaults to daily)
+    .PARAMETER Append
+        Append to existing log (does not create log file)
     .INPUTS
         System.String.
     .OUTPUTS
@@ -32,7 +34,10 @@ function Start-Log {
 
         [Parameter(HelpMessage = 'New log file creation frequency')]
         [ValidateSet('Daily', 'Monthly', 'Yearly')]
-        [string] $Frequency = 'Daily'
+        [string] $Frequency = 'Daily',
+
+        [Parameter(HelpMessage = 'Append to existing log')]
+        [switch] $Append
     )
     Begin {
         # CREATE DIRECTORY IF NOT EXIST
@@ -46,16 +51,23 @@ function Start-Log {
         }
 
         # SET FILE LOG PATH
-        $filePath = Join-Path -Path $Directory -ChildPath ('{0}-{1}.log' -f $Name, $dateFormat)
-
-        # CHECK FOR EXISTANCE OF LOG FILE
-        if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
+        $filePath = Join-Path -Path $Directory -ChildPath ('{0}_{1}.log' -f $Name, $dateFormat)
 
         # ADD INITIAL LOG ENTRY
         $logEntry = '{0} [INFO ] # - Begin Logging' -f (Get-Date).ToString($format)
 
-        # ADD FIRST ENTRY TO LOG FILE
-        Set-Content -Path $filePath -Value $logEntry
+        # CHECK FOR PATH ONLY PARAMETER
+        if ( $PSBoundParameters.ContainsKey('Append') ) {
+            # ADD NEW LOG ENTRY
+            Add-Content -Path $filePath -Value $logEntry
+        }
+        else {
+            # CHECK FOR EXISTANCE OF LOG FILE
+            if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
+
+            # ADD FIRST ENTRY TO LOG FILE
+            Set-Content -Path $filePath -Value $logEntry
+        }
     }
     End {
         # RETURN FILEPATH
