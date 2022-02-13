@@ -68,7 +68,7 @@ function Start-Log {
         $filePath = Join-Path -Path $Directory -ChildPath $fileName
 
         # ADD INITIAL LOG ENTRY
-        $logEntry = '{0} [INFO ] # - Begin Logging' -f (Get-Date).ToString($format)
+        $logEntry = '{0} [INFO ] # - Begin Logging' -f (Get-Date).ToString($FORMAT)
 
         # CHECK FOR PATH ONLY PARAMETER
         if ( $PSBoundParameters.ContainsKey('Append') ) {

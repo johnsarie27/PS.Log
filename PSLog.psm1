@@ -1,7 +1,7 @@
 # ==============================================================================
-# Updated:      2021-09-24
-# Created by:   Justin Johns
-# Filename:     PSLog.psm1
+# Filename: PSLog.psm1
+# Updated:  2022-02-13
+# Author:   Justin Johns
 # ==============================================================================
 
 # IMPORT ALL FUNCTIONS
@@ -10,7 +10,8 @@ foreach ( $directory in @('Public', 'Private') ) {
 }
 
 # VARIABLES
-$format = 'yyyy-MM-dd HH:mm:ss.ffff' # 'yyyy-MM-ddTHH:mm:ss.ffff'
+# 'yyyy-MM-ddTHH:mm:ss.ffff'
+New-Variable -Name FORMAT -Option ReadOnly -Value 'yyyy-MM-dd HH:mm:ss.ffff'
 
 # EXPORT MEMBERS
 # THESE ARE SPECIFIED IN THE MODULE MANIFEST AND THEREFORE DON'T NEED TO BE LISTED HERE
