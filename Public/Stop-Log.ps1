@@ -16,7 +16,7 @@ function Stop-Log {
     .NOTES
         General notes
     ========================================================================= #>
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]
@@ -24,8 +24,12 @@ function Stop-Log {
     )
     Process {
 
-        $logEntry = '{0} [INFO ] # - End logging' -f (Get-Date).ToString($FORMAT)
+        # SHOULD PROCESS
+        if ($PSCmdlet.ShouldProcess($Path)) {
 
-        Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
+            $logEntry = '{0} [INFO ] # - End logging' -f (Get-Date).ToString($FORMAT)
+
+            Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
+        }
     }
 }

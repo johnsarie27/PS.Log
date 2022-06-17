@@ -24,9 +24,9 @@ function Start-Log {
     .NOTES
         General notes
     ========================================================================= #>
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess)]
     Param(
-        [Parameter(Mandatory, ValueFromPipeline, HelpMessage = 'Output directory for log file')]
+        [Parameter(Mandatory, HelpMessage = 'Output directory for log file')]
         [ValidateScript({ Test-Path -Path (Split-Path -Path $_) -PathType Container })]
         [string] $Directory,
 
@@ -70,17 +70,21 @@ function Start-Log {
         # ADD INITIAL LOG ENTRY
         $logEntry = '{0} [INFO ] # - Begin Logging' -f (Get-Date).ToString($FORMAT)
 
-        # CHECK FOR PATH ONLY PARAMETER
-        if ( $PSBoundParameters.ContainsKey('Append') ) {
-            # ADD NEW LOG ENTRY
-            Add-Content -Path $filePath -Value $logEntry
-        }
-        else {
-            # CHECK FOR EXISTANCE OF LOG FILE
-            if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
+        # SHOULD PROCESS
+        if ($PSCmdlet.ShouldProcess($filePath)) {
 
-            # ADD FIRST ENTRY TO LOG FILE
-            Set-Content -Path $filePath -Value $logEntry
+            # CHECK FOR PATH ONLY PARAMETER
+            if ( $PSBoundParameters.ContainsKey('Append') ) {
+                # ADD NEW LOG ENTRY
+                Add-Content -Path $filePath -Value $logEntry
+            }
+            else {
+                # CHECK FOR EXISTANCE OF LOG FILE
+                if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
+
+                # ADD FIRST ENTRY TO LOG FILE
+                Set-Content -Path $filePath -Value $logEntry
+            }
         }
     }
     End {
