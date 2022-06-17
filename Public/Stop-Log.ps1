@@ -22,7 +22,7 @@ function Stop-Log {
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]
         [string] $Path
     )
-    Process {
+    Begin {
 
         # SHOULD PROCESS
         if ($PSCmdlet.ShouldProcess($Path)) {

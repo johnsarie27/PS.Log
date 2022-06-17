@@ -83,12 +83,11 @@ function Start-Log {
                 if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
 
                 # ADD FIRST ENTRY TO LOG FILE
-                Set-Content -Path $filePath -Value $logEntry
+                Set-Content -Path $filePath -Value $logEntry -Confirm:$false
             }
+
+            # RETURN FILEPATH
+            return $filePath
         }
-    }
-    End {
-        # RETURN FILEPATH
-        return $filePath
     }
 }
