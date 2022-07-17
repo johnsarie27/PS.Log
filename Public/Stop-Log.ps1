@@ -20,7 +20,7 @@ function Stop-Log {
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]
-        [string] $Path
+        [System.String] $Path
     )
     Begin {
 

@@ -28,21 +28,21 @@ function Start-Log {
     Param(
         [Parameter(Mandatory, HelpMessage = 'Output directory for log file')]
         [ValidateScript({ Test-Path -Path (Split-Path -Path $_) -PathType Container })]
-        [string] $Directory,
+        [System.String] $Directory,
 
         [Parameter(Mandatory, HelpMessage = 'Log file name')]
         [ValidateNotNullOrEmpty()]
-        [string] $Name,
+        [System.String] $Name,
 
         [Parameter(HelpMessage = 'New log file creation frequency')]
         [ValidateSet('Daily', 'Monthly', 'Yearly')]
-        [string] $Frequency = 'Daily',
+        [System.String] $Frequency = 'Daily',
 
         [Parameter(HelpMessage = 'Ensure filename is unique')]
-        [switch] $Unique,
+        [System.Management.Automation.SwitchParameter] $Unique,
 
         [Parameter(HelpMessage = 'Append to existing log')]
-        [switch] $Append
+        [System.Management.Automation.SwitchParameter] $Append
     )
     Begin {
         # CREATE DIRECTORY IF NOT EXIST

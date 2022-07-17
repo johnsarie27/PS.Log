@@ -24,15 +24,15 @@ function Write-LogWarn {
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]
-        [string] $Path,
+        [System.String] $Path,
 
         [Parameter(Mandatory, ValueFromPipeline, HelpMessage = 'Log entry message')]
         [ValidateNotNullOrEmpty()]
-        [string[]] $Message,
+        [System.String[]] $Message,
 
         [Parameter(HelpMessage = 'Id')]
         [ValidateRange(0, 99999)]
-        [int] $Id = 0
+        [System.Int32] $Id = 0
     )
     Process {
 
