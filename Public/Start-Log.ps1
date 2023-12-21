@@ -1,5 +1,5 @@
 function Start-Log {
-    <# =========================================================================
+    <#
     .SYNOPSIS
         Start a new log file
     .DESCRIPTION
@@ -23,7 +23,7 @@ function Start-Log {
         Creates a new log file in the folder C:\temp
     .NOTES
         General notes
-    ========================================================================= #>
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Output directory for log file')]

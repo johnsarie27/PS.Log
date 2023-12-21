@@ -1,5 +1,5 @@
 function Write-LogInfo {
-    <# =========================================================================
+    <#
     .SYNOPSIS
         Write INFO to log
     .DESCRIPTION
@@ -19,7 +19,7 @@ function Write-LogInfo {
         Adds the information-level log entry 'Log file updated'
     .NOTES
         General notes
-    ========================================================================= #>
+    #>
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]

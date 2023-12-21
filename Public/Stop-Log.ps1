@@ -1,5 +1,5 @@
 function Stop-Log {
-    <# =========================================================================
+    <#
     .SYNOPSIS
         Stops log
     .DESCRIPTION
@@ -15,7 +15,7 @@ function Stop-Log {
         Adds the information-level log entry 'End logging'
     .NOTES
         General notes
-    ========================================================================= #>
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
