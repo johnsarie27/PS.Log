@@ -1,5 +1,5 @@
 function Write-LogDebug {
-    <# =========================================================================
+    <#
     .SYNOPSIS
         Write INFO to log
     .DESCRIPTION
@@ -19,7 +19,7 @@ function Write-LogDebug {
         Adds the debug-level log entry 'process started'
     .NOTES
         General notes
-    ========================================================================= #>
+    #>
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]

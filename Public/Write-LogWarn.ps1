@@ -1,5 +1,5 @@
 function Write-LogWarn {
-    <# =========================================================================
+    <#
     .SYNOPSIS
         Write INFO to log
     .DESCRIPTION
@@ -19,7 +19,7 @@ function Write-LogWarn {
         Adds the warning-level log entry 'Minor issue detected'
     .NOTES
         General notes
-    ========================================================================= #>
+    #>
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
