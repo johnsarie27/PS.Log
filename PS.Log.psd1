@@ -6,7 +6,7 @@
 
 @{
     # Script module or binary module file associated with this manifest.
-    RootModule = 'PS.Log.psm1'
+    RootModule        = 'PS.Log.psm1'
 
     # Version number of this module.
     ModuleVersion     = '0.2.1'
@@ -27,7 +27,7 @@
     Copyright         = '(c) just9539. All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description = 'PowerShell module for trace logging'
+    Description       = 'PowerShell module for trace logging'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion = '4.0'
