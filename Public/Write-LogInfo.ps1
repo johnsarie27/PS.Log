@@ -18,9 +18,10 @@ function Write-LogInfo {
         PS C:\> Write-LogInfo -Path C:\temp\log.log -Message 'Log file updated'
         Adds the information-level log entry 'Log file updated'
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding()]
+    [OutputType([System.Void])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]

@@ -14,9 +14,10 @@ function Stop-Log {
         PS C:\> Stop-Log -Path C:\temp\log.log
         Adds the information-level log entry 'End logging'
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding(SupportsShouldProcess)]
+    [OutputType([System.Void])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]

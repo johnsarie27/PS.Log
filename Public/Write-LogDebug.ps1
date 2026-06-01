@@ -18,9 +18,10 @@ function Write-LogDebug {
         PS C:\> Write-LogDebug -Path C:\temp\log.log -Message 'process started'
         Adds the debug-level log entry 'process started'
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding()]
+    [OutputType([System.Void])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]

@@ -5,7 +5,7 @@ function Start-Log {
     .DESCRIPTION
         Start a new log file
     .PARAMETER Directory
-        Output directory for log file. Paraent directory must exist.
+        Output directory for log file. Parent directory must exist.
     .PARAMETER Name
         log file name
     .PARAMETER Frequency
@@ -22,9 +22,10 @@ function Start-Log {
         PS C:\> Start-Log -Directory C:\temp -Name myLog
         Creates a new log file in the folder C:\temp
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding(SupportsShouldProcess)]
+    [OutputType([System.String])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Output directory for log file')]
         [ValidateNotNullOrEmpty()]
@@ -46,7 +47,7 @@ function Start-Log {
     )
     Begin {
         # CREATE DIRECTORY IF NOT EXIST
-        if ( -not (Test-Path $Directory) ) { New-Item -Path $Directory -ItemType "Directory" -Force | Out-Null }
+        if ( -not (Test-Path -Path $Directory) ) { New-Item -Path $Directory -ItemType 'Directory' -Force | Out-Null }
 
         # SET DATE FORMAT FOR LOG NAME
         $dateFormat = switch ($Frequency) {

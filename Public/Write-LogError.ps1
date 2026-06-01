@@ -18,9 +18,10 @@ function Write-LogError {
         PS C:\> Write-LogError -Path C:\temp\log.log -Message 'Job encountered an error'
         Adds the error-level log entry 'Job encountered an error'
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding()]
+    [OutputType([System.Void])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]

@@ -25,22 +25,22 @@ Legend: `[ ]` open · `[x]` done · `[~]` in progress · `[-]` won't do (with no
 
 ## PR 2 — Standards alignment
 
-- [ ] **`PowerShellVersion = '4.0'`** -> `'5.1'` in `PS.Log.psd1`.
-- [ ] **Add `CompatiblePSEditions = @('Core','Desktop')`** to `PS.Log.psd1`.
-- [ ] **Add `[OutputType()]`** to every function:
+- [x] **`PowerShellVersion = '4.0'`** -> `'5.1'` in `PS.Log.psd1`.
+- [x] **Add `CompatiblePSEditions = @('Core','Desktop')`** to `PS.Log.psd1`.
+- [x] **Add `[OutputType()]`** to every function:
   - `Start-Log` -> `[OutputType([System.String])]`
   - `Stop-Log`, `Write-LogInfo`, `Write-LogError`, `Write-LogWarn`, `Write-LogDebug`
     -> `[OutputType([System.Void])]`
-- [ ] **`.NOTES Status:` line** on every function (e.g., `Status: Stable`). Drop "General notes".
-- [ ] **Rewrite `.psm1` dot-source loop** per `module-structure.md`:
-      `$dirs = @("$PSScriptRoot\Public", "$PSScriptRoot\Private")` -> use the canonical
-      `Get-ChildItem -Path $dirs -Filter '*.ps1'` pattern with `-f` / `Join-Path` if any
-      interpolation remains.
-- [ ] **Replace `New-Item -ItemType "Directory"`** with single-quoted `'Directory'` in `Start-Log`.
-- [ ] **Add `-Path` to `Test-Path $Directory`** in `Start-Log` (explicit parameter names).
-- [ ] **Typo:** "Paraent" -> "Parent" in `Start-Log` `.PARAMETER Directory` help.
-- [ ] **`PS.Log.psd1` header comment** says `module 'PSLog'`; correct to `PS.Log`.
-- [ ] **Recommended:** add `Tags` and `LicenseUri` to `PSData` in `PS.Log.psd1`.
+- [x] **`.NOTES Status:` line** on every function (set to `Status: Stable`).
+- [x] **Rewrite `.psm1` dot-source loop** per `module-structure.md` (uses
+      `Join-Path` + `Get-ChildItem -Path $dirs -Filter '*.ps1'`).
+- [x] **Replace `New-Item -ItemType "Directory"`** with single-quoted `'Directory'` in `Start-Log`.
+- [x] **Add `-Path` to `Test-Path $Directory`** in `Start-Log`.
+- [x] **Typo:** "Paraent" -> "Parent" in `Start-Log` `.PARAMETER Directory` help.
+- [x] **`PS.Log.psd1` header comment** updated `PSLog` -> `PS.Log`.
+- [x] **Added `Tags` and `LicenseUri`** to `PSData`.
+- [x] **Bumped `ModuleVersion`** `0.2.1` -> `0.3.0` (new minor: behavior fixes +
+      manifest changes, no breaking surface).
 
 ## PR 3 (follow-up, separate branch/issue) — Tests & CI
 
@@ -53,6 +53,7 @@ Legend: `[ ]` open · `[x]` done · `[~]` in progress · `[-]` won't do (with no
       natively supports `ProgressAction`, then delete the patch block.
 - [ ] **Pin third-party GitHub Actions by commit SHA** in `.github/workflows/*.yml` per
       `module-structure.md`.
+- [x] **Add `.gitattributes`** to normalize line endings (done with PR 2 batch).
 
 ---
 

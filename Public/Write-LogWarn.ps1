@@ -18,9 +18,10 @@ function Write-LogWarn {
         PS C:\> Write-LogWarn -Path C:\temp\log.log -Message 'Minor issue detected'
         Adds the warning-level log entry 'Minor issue detected'
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding()]
+    [OutputType([System.Void])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
         [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]
