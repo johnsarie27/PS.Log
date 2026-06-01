@@ -16,9 +16,8 @@
 
     # Common modules
     BuildHelpers     = '2.0.16'
-    Pester           = '5.5.0'
-    PlatyPS          = '0.14.2'
+    Pester           = '5.7.1'
     psake            = '4.9.0'
     #PSDeploy         = '1.0.5'
-    PSScriptAnalyzer = '1.21.0'
+    PSScriptAnalyzer = '1.25.0'
 }

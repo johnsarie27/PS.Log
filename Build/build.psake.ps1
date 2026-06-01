@@ -1,3 +1,12 @@
+# Variables declared in the psake Properties block are consumed by Task
+# scriptblocks at runtime via psake's own scoping, which PSScriptAnalyzer
+# cannot statically follow. Suppress the false-positive rule file-wide.
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+    'PSUseDeclaredVarsMoreThanAssignments', '',
+    Justification = 'Variables are consumed inside psake Task scriptblocks at runtime.'
+)]
+param()
+
 # PSake makes variables declared here available in other scriptblocks
 Properties {
     $ProjectRoot = $env:BHProjectPath
@@ -27,9 +36,6 @@ Properties {
     #$StagingModulePath = Join-Path -Path $StagingFolder -ChildPath $ProjectName
     $StagingModuleManifestPath = Join-Path -Path $StagingModulePath -ChildPath "$($env:BHProjectName).psd1"
     #$StagingModuleManifestPath = Join-Path -Path $StagingModulePath -ChildPath "$($ProjectName).psd1"
-
-    # Documentation
-    $DocumentationPath = Join-Path -Path $StagingModulePath -ChildPath 'Documentation'
 }
 
 # Define top-level tasks
@@ -102,8 +108,7 @@ Task 'ImportStagingModule' -depends 'Init', 'CombineFunctionsAndStage' {
     if (Get-Module -Name $env:BHProjectName) {
         Remove-Module -Name $env:BHProjectName -Force
     }
-    # Global scope used for UpdateDocumentation (PlatyPS)
-    Import-Module -Name $StagingModulePath -ErrorAction 'Stop' -Force -Global
+    Import-Module -Name $StagingModulePath -ErrorAction 'Stop' -Force
 }
 
 # Run PSScriptAnalyzer against code to ensure quality and best practices are used
@@ -163,48 +168,6 @@ Task 'Test' -depends 'ImportStagingModule' {
     }
 }
 
-# Create new Documentation markdown files from comment-based help
-Task 'UpdateDocumentation' -depends 'ImportStagingModule' {
-    $lines
-    Write-Output "Updating Markdown help in Staging folder: [$DocumentationPath]`n"
-
-    # $null = Import-Module -Name $env:BHPSModuleManifest -Global -Force -PassThru -Verbose
-
-    # Cleanup
-    Remove-Item -Path $DocumentationPath -Recurse -Force -ErrorAction 'SilentlyContinue'
-    Start-Sleep -Seconds 5
-    New-Item -Path $DocumentationPath -ItemType 'Directory' | Out-Null
-
-    # Create new Documentation markdown files
-    $platyPSParams = @{
-        Module       = $env:BHProjectName
-        OutputFolder = $DocumentationPath
-        NoMetadata   = $true
-    }
-    New-MarkdownHelp @platyPSParams -ErrorAction 'SilentlyContinue' -Verbose | Out-Null
-
-    # Update index.md
-    Write-Output "Copying index.md...`n"
-    Copy-Item -Path "$env:BHProjectPath\README.md" -Destination "$($DocumentationPath)\index.md" -Force -Verbose | Out-Null
-
-}
-
-# copy documentation markdown files from staging dir to production dir
-Task 'CopyDocumentation' -depends 'UpdateDocumentation' {
-    $lines
-
-    $ProductionDocumentatonPath = Join-Path -Path $ProjectRoot -ChildPath 'Documentation'
-    Write-Output "Copying Markdown help from Staging folder [$DocumentationPath] to Production folder [$ProductionDocumentatonPath]`n"
-
-    # cleanup
-    Remove-Item -Path $ProductionDocumentatonPath -Recurse -Force -ErrorAction 'SilentlyContinue'
-    Start-Sleep -Seconds 5
-    New-Item -Path $ProductionDocumentatonPath -ItemType 'Directory' | Out-Null
-
-    # copy
-    Copy-Item -Path $DocumentationPath/* -Destination $ProductionDocumentatonPath/ -Recurse
-}
-
 # Create a versioned zip file of all staged files
 # NOTE: Admin Rights are needed if you run this locally
 Task 'CreateBuildArtifact' -depends 'Init' {
@@ -227,7 +190,7 @@ Task 'CreateBuildArtifact' -depends 'Init' {
     try {
         $releaseFilename = "$($env:BHProjectName)-v$($manifestVersion.ToString()).zip"
         $releasePath = Join-Path -Path $ArtifactFolder -ChildPath $releaseFilename
-        Write-Output "Creating release artifact [$releasePath] using manifest version [$manifestVersion]" -ForegroundColor 'Yellow'
+        Write-Output "Creating release artifact [$releasePath] using manifest version [$manifestVersion]"
         Compress-Archive -Path "$StagingFolder/*" -DestinationPath $releasePath -Force -Verbose -ErrorAction 'Stop'
     }
     catch {
