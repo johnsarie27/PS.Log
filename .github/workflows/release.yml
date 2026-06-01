@@ -12,6 +12,10 @@ on:
       - .gitignore
       - .github/**
 
+permissions:
+  id-token: write # this is required for requesting JWT
+  contents: write # this is required for actions/checkout
+
 jobs:
   release:
     if: startsWith(github.ref, 'refs/tags/v')
