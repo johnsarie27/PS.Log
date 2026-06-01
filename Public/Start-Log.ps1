@@ -27,11 +27,11 @@ function Start-Log {
     [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Output directory for log file')]
-        [ValidateScript({ Test-Path -Path (Split-Path -Path $_) -PathType Container })]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Directory,
 
         [Parameter(Mandatory, HelpMessage = 'Log file name')]
-        [ValidateNotNullOrEmpty()]
+        [ValidatePattern('^[\w.\-]+$')]
         [System.String] $Name,
 
         [Parameter(HelpMessage = 'New log file creation frequency')]
@@ -80,7 +80,9 @@ function Start-Log {
             }
             else {
                 # CHECK FOR EXISTANCE OF LOG FILE
-                if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
+                if ( Test-Path -Path $filePath ) {
+                    Write-Error -Message ('Log file already exists: {0}' -f $filePath) -ErrorAction Stop
+                }
 
                 # ADD FIRST ENTRY TO LOG FILE
                 Set-Content -Path $filePath -Value $logEntry -Confirm:$false

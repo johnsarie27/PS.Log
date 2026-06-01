@@ -19,7 +19,7 @@ function Stop-Log {
     [CmdletBinding(SupportsShouldProcess)]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
-        [ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]
+        [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]
         [System.String] $Path
     )
     Begin {

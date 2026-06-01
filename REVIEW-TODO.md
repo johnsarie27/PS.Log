@@ -11,25 +11,17 @@ Legend: `[ ]` open · `[x]` done · `[~]` in progress · `[-]` won't do (with no
 
 ## PR 1 — Correctness & security
 
-- [ ] **Path validator is a no-op.** Replace `[ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]`
-      with `[ValidateScript({ (Test-Path -Path $_ -PathType Leaf) -and $_ -like '*.log' })]`.
-  - Files: `Public/Stop-Log.ps1`, `Public/Write-LogInfo.ps1`, `Public/Write-LogError.ps1`,
-    `Public/Write-LogWarn.ps1`, `Public/Write-LogDebug.ps1`
-- [ ] **`-Id` `ValidateRange` mismatch.** Normalize to `0..999999` across all four writers
-      (currently Info uses 999999, Error/Warn/Debug use 99999).
-- [ ] **`Build/build.ps1` invalid parameter.** `Write-Output ... -ForegroundColor 'Yellow'`
-      will throw. Switch to `Write-Host` (build-script context) or drop the color.
-- [ ] **`throw` -> `Write-Error`.** `Start-Log.ps1` "Log file already exists" path must use
-      `Write-Error -Message '...' -ErrorAction Stop`.
-- [ ] **Log injection.** Sanitize `$Message` in the four writers before `Add-Content`
-      (e.g., replace `[\r\n]+` with a single literal token like `\n` or a space).
-- [ ] **Path traversal in `Start-Log`.** Validate `-Name` (suggest
-      `[ValidatePattern('^[\w\-.]+$')]`) and/or assert the resolved
-      `Join-Path $Directory $fileName` stays under `$Directory`.
-- [ ] **`Start-Log` parent-only validator.** Either drop the `ValidateScript` on `-Directory`
-      or change it to assert `$Directory` itself exists (current code silently `New-Item`s it).
-- [ ] **Copy-paste SYNOPSIS/DESCRIPTION** in `Write-LogError`, `Write-LogWarn`, `Write-LogDebug`
-      (all currently say "Write INFO to log").
+- [x] **Path validator is a no-op.** Replaced with `(Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log'`
+      across all five files.
+- [x] **`-Id` `ValidateRange` mismatch.** Normalized to `0..999999` across all four writers.
+- [x] **`Build/build.ps1` invalid parameter.** Dropped the `-ForegroundColor 'Yellow'`.
+- [x] **`throw` -> `Write-Error`** in `Start-Log` (now includes the conflicting file path).
+- [x] **Log injection.** All four writers strip `[\r\n]+` -> literal `\n` before `Add-Content`.
+- [x] **Path traversal in `Start-Log`.** `-Name` now uses `[ValidatePattern('^[\w.\-]+$')]`.
+- [x] **`Start-Log` parent-only validator.** Dropped; `-Directory` now uses `[ValidateNotNullOrEmpty()]`
+      (the `Begin` block already creates the directory if missing).
+- [x] **Copy-paste SYNOPSIS/DESCRIPTION** fixed in `Write-LogError` / `Write-LogWarn` / `Write-LogDebug`.
+      (Remaining `.PARAMETER` / `.EXAMPLE` copy-paste is help text only — covered under PR 2.)
 
 ## PR 2 — Standards alignment
 
