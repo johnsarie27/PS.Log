@@ -18,12 +18,13 @@ function Write-LogInfo {
         PS C:\> Write-LogInfo -Path C:\temp\log.log -Message 'Log file updated'
         Adds the information-level log entry 'Log file updated'
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding()]
+    [OutputType([System.Void])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Log file path')]
-        [ValidateScript({ Test-Path $_ -PathType 'Leaf' -Include "*.log" })]
+        [ValidateScript({ (Test-Path -Path $_ -PathType 'Leaf') -and $_ -like '*.log' })]
         [System.String] $Path,
 
         [Parameter(Mandatory, ValueFromPipeline, HelpMessage = 'Log entry message')]
@@ -38,7 +39,10 @@ function Write-LogInfo {
 
         foreach ( $msg in $Message ) {
 
-            $logEntry = '{0} [INFO ] {1} - {2}' -f (Get-Date).ToString($FORMAT), $Id, $msg
+            # STRIP CR/LF TO PREVENT LOG INJECTION (FORGED LINES)
+            $sanitized = $msg -replace '[\r\n]+', '\n'
+
+            $logEntry = '{0} [INFO ] {1} - {2}' -f (Get-Date).ToString($FORMAT), $Id, $sanitized
 
             Add-Content -Path $Path -Value $logEntry -ErrorAction Stop
         }

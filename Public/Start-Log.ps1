@@ -5,7 +5,7 @@ function Start-Log {
     .DESCRIPTION
         Start a new log file
     .PARAMETER Directory
-        Output directory for log file. Paraent directory must exist.
+        Output directory for log file. Parent directory must exist.
     .PARAMETER Name
         log file name
     .PARAMETER Frequency
@@ -22,16 +22,17 @@ function Start-Log {
         PS C:\> Start-Log -Directory C:\temp -Name myLog
         Creates a new log file in the folder C:\temp
     .NOTES
-        General notes
+        Status: Stable
     #>
     [CmdletBinding(SupportsShouldProcess)]
+    [OutputType([System.String])]
     Param(
         [Parameter(Mandatory, HelpMessage = 'Output directory for log file')]
-        [ValidateScript({ Test-Path -Path (Split-Path -Path $_) -PathType Container })]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Directory,
 
         [Parameter(Mandatory, HelpMessage = 'Log file name')]
-        [ValidateNotNullOrEmpty()]
+        [ValidatePattern('^[\w.\-]+$')]
         [System.String] $Name,
 
         [Parameter(HelpMessage = 'New log file creation frequency')]
@@ -46,7 +47,7 @@ function Start-Log {
     )
     Begin {
         # CREATE DIRECTORY IF NOT EXIST
-        if ( -not (Test-Path $Directory) ) { New-Item -Path $Directory -ItemType "Directory" -Force | Out-Null }
+        if ( -not (Test-Path -Path $Directory) ) { New-Item -Path $Directory -ItemType 'Directory' -Force | Out-Null }
 
         # SET DATE FORMAT FOR LOG NAME
         $dateFormat = switch ($Frequency) {
@@ -80,7 +81,9 @@ function Start-Log {
             }
             else {
                 # CHECK FOR EXISTANCE OF LOG FILE
-                if ( Test-Path -Path $filePath ) { throw 'Log file already exists.' }
+                if ( Test-Path -Path $filePath ) {
+                    Write-Error -Message ('Log file already exists: {0}' -f $filePath) -ErrorAction Stop
+                }
 
                 # ADD FIRST ENTRY TO LOG FILE
                 Set-Content -Path $filePath -Value $logEntry -Confirm:$false

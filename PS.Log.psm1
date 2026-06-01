@@ -4,19 +4,23 @@
 # Author:   Justin Johns
 # ==============================================================================
 
-# IMPORT ALL FUNCTIONS
-foreach ( $directory in @('Public', 'Private') ) {
-    foreach ( $fn in (Get-ChildItem -Path "$PSScriptRoot\$directory\*.ps1") ) { . $fn.FullName }
-}
+# DOT SOURCE ALL PUBLIC AND PRIVATE FUNCTIONS
+$dirs = @(
+    (Join-Path -Path $PSScriptRoot -ChildPath 'Public')
+    (Join-Path -Path $PSScriptRoot -ChildPath 'Private')
+)
+foreach ($file in (Get-ChildItem -Path $dirs -Filter '*.ps1' -ErrorAction Ignore)) { . $file.FullName }
 
-# VARIABLES
+# MODULE-SCOPE READ-ONLY VARIABLES
 # 'yyyy-MM-ddTHH:mm:ss.ffff'
-New-Variable -Name FORMAT -Option ReadOnly -Value 'yyyy-MM-dd HH:mm:ss.ffff'
+New-Variable -Name 'FORMAT' -Option ReadOnly -Value 'yyyy-MM-dd HH:mm:ss.ffff'
 
 # EXPORT MEMBERS
-# THESE ARE SPECIFIED IN THE MODULE MANIFEST AND THEREFORE DON'T NEED TO BE LISTED HERE
-#Export-ModuleMember -Function *
-#Export-ModuleMember -Variable *
+# Functions are intentionally omitted here. When a module manifest (.psd1) is
+# present, FunctionsToExport in the manifest is authoritative for which
+# functions are visible after Import-Module. Variables and aliases are still
+# declared here because they are not controlled by the manifest the same way.
+Export-ModuleMember -Variable * -Alias *
 
 # FORMAT NOTES
 # {"timestamp":"2021-09-24 15:34:34.0001","level":"INFO","id":"#","message":"Begin Logging"}
