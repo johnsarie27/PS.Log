@@ -28,11 +28,34 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Run PSScriptAnalyzer
-        uses: microsoft/psscriptanalyzer-action@6b2948b1944407914a58661c49941824d149734f # v1.1
-        with:
-          path: .\
-          recurse: true
-          output: results.sarif
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $moduleParams = @{
+            Scope       = 'CurrentUser'
+            Force       = $true
+            Repository  = 'PSGallery'
+            ErrorAction = 'Stop'
+          }
+
+          Install-Module -Name 'PSScriptAnalyzer' -RequiredVersion '1.25.0' @moduleParams
+          Install-Module -Name 'ConvertToSARIF' @moduleParams
+
+          Import-Module -Name 'PSScriptAnalyzer' -RequiredVersion '1.25.0' -Force -ErrorAction Stop
+          Import-Module -Name 'ConvertToSARIF' -Force -ErrorAction Stop
+
+          $analyzerParams = @{
+            Path     = './'
+            Recurse  = $true
+            Settings = './Build/PSScriptAnalyzerSettings.psd1'
+          }
+
+          $sarifParams = @{
+            FilePath = 'results.sarif'
+          }
+
+          Invoke-ScriptAnalyzer @analyzerParams | ConvertTo-SARIF @sarifParams
 
       - name: Upload SARIF results file
         uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
