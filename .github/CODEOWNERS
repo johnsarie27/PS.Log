@@ -1,0 +1,13 @@
+# Global owner — fallback for all files
+* @johnsarie27
+
+# PowerShell module files
+*.psm1 @johnsarie27
+*.psd1 @johnsarie27
+
+# GitHub config and workflows
+.github/ @johnsarie27
+
+# Documentation
+Documentation/ @johnsarie27
+*.md @johnsarie27
