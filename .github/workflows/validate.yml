@@ -19,6 +19,9 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     env:
       PSAKE_OUTPUT_FORMAT: GitHubActions
     steps:
@@ -41,3 +44,12 @@ jobs:
           name: Pester Results
           path: "Artifacts/**/Test-*.xml"
           if-no-files-found: error
+
+      - name: Publish Pester results
+        uses: dorny/test-reporter@a43b3a5f7366b97d083190328d2c652e1a8b6aa2 # v3.0.0
+        if: always()
+        with:
+          name: Pester Tests
+          path: Artifacts/**/Test-*.xml
+          reporter: java-junit
+          fail-on-error: false
