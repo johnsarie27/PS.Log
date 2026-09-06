@@ -1,0 +1,19 @@
+name: analyze-sarif
+run-name: analyze-sarif
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: psscriptanalyzer-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    uses: jjohns-dev/pwsh-module-ci/.github/workflows/analyze-sarif.yml@v1
+    permissions:
+      contents: read
+      security-events: write
