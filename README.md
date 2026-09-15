@@ -1,8 +1,8 @@
 # PS.Log
 
-![validate](https://github.com/johnsarie27/PS.Log/actions/workflows/validate.yml/badge.svg)
-![PSScriptAnalyzer](https://github.com/johnsarie27/PS.Log/actions/workflows/powershell.yml/badge.svg)
-![License](https://img.shields.io/github/license/johnsarie27/PS.Log)
+![validate](https://github.com/jjohns-dev/PS.Log/actions/workflows/ci.yml/badge.svg)
+![PSScriptAnalyzer](https://github.com/jjohns-dev/PS.Log/actions/workflows/pssa-sarif.yml/badge.svg)
+![License](https://img.shields.io/github/license/jjohns-dev/PS.Log)
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B%20%7C%20Core-blue)
 
 PS.Log is a lightweight PowerShell module for structured trace logging. It provides a consistent set of log levels — `Info`, `Warn`, `Error`, and `Debug` — with no external dependencies, making it suitable for use inside secure or air-gapped environments. Compatible with Windows PowerShell 5.1 and PowerShell Core.
@@ -12,7 +12,7 @@ PS.Log is a lightweight PowerShell module for structured trace logging. It provi
 PS.Log is not published to the PowerShell Gallery. Install it by cloning the repository:
 
 ```powershell
-git clone https://github.com/johnsarie27/PS.Log.git
+git clone https://github.com/jjohns-dev/PS.Log.git
 Import-Module ./PS.Log/PS.Log.psd1
 ```
 

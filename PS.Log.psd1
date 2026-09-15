@@ -102,10 +102,10 @@
             Tags = @('Logging', 'Trace', 'Log', 'PSLog')
 
             # A URL to the license for this module.
-            LicenseUri = 'https://github.com/johnsarie27/PS.Log/blob/main/LICENSE'
+            LicenseUri = 'https://github.com/jjohns-dev/PS.Log/blob/main/LICENSE'
 
             # A URL to the main website for this project.
-            ProjectUri = 'https://github.com/johnsarie27/PS.Log'
+            ProjectUri = 'https://github.com/jjohns-dev/PS.Log'
 
             # A URL to an icon representing this module.
             # IconUri = ''
